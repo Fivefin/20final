@@ -10,4 +10,38 @@
         select uid,uname,upwd,state,lastLoginTime
         from sys_user where uname=#{sysUser.uname}
     </select>
+    <select id="findByUid" parameterType="String" resultType="com.example.welcome1.entity.SysUser">
+        select uid,uname,upwd,state,lastLoginTime
+        from sys_user where uid=#{sysUser.uid}
+    </select>
+    
+    <update id="updateSysUser" parameterType="com.example.welcome1.entity.SysUser" >
+        update sys_user
+        <set >
+            <if test="uname != null">
+                uname = #{sysUser.uname},
+            </if>
+            <if test="email != null">
+                email = #{sysUser.email},
+            </if>
+            <if test="phone != null">
+                phone = #{sysUser.phone},
+            </if>
+            <if test="birthday != null">
+                birthday = #{sysUser.birthday},
+            </if>
+        </set>
+        where uname = #{sysUser.uname}
+    </update>
+    <update id="updatePwd" parameterType="com.example.welcome1.entity.SysUser">
+        update sys_user
+        <set >
+            <if test="upwd != null">
+                upwd = #{sysUser.upwd},
+            </if>
+        </set>
+        where uname = #{sysUser.uname}
+    </update>
+
+
 </mapper>

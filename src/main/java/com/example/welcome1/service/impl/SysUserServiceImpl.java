@@ -50,4 +50,25 @@ public class SysUserServiceImpl implements SysUserService {
             throw new RuntimeException("用户名输入错误！");
         }
     }
+
+    @Override
+    public SysUser getInfo(SysUser sysUser) {
+        SysUser sysUserDB = sysUserDao.findByUName(sysUser.getUname());
+        return sysUserDB;
+    }
+
+    @Override
+    public Integer updateInfo(SysUser sysUser) {
+        SysUser sysUserByUname = sysUserDao.findByUName(sysUser.getUname());
+        Integer updateDB = sysUserDao.updateSysUser(sysUserByUname);
+        return updateDB;
+
+    }
+
+    @Override
+    public Integer updatePwd(String uname) {
+        SysUser sysUserByUname = sysUserDao.findByUName(uname);
+        return sysUserDao.updatePwd(sysUserByUname);
+    }
+
 }
