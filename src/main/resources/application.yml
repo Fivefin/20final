@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/welcome1?characterEncoding=utf8&userSSL=false&serverTimezone=GMT%2B8
+    username: root
+    #    password: APZgvhxxJCUoIEu0ejqV/ENvsf6JsOoW10R8iEvEDkuWCx0Hdgu0x043NzwAC+5j/seMCSOdemy4iJcfk7krBQ==
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    connection-Properties: config.decrypt=true;config.decrypt.key=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJHKKFZNtRngYz3R1OkWjcVszeyV2v6Pa1AWo3V63MAJBeZyCmhiDy66AOQ/L1IgsG5dFH4H90eP/CKhpw7l2nMCAwEAAQ==
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    #配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,log4j,config
+    maxPoolPreparedStatementPerConnectionSize: 20
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    #   下划线自动转为驼峰命名法
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.example.welcome1.entity
+
+#logging:
+#  level:
+#    root: WARN
+#    org.springframework: INFO
+#    com.chinadaas.platform: DEBUG
+server:
+  port: 8181

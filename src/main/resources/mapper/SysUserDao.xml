@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.welcome1.dao.SysUserDao">
+
+    <insert id="save" parameterType="com.example.welcome1.entity.SysUser" useGeneratedKeys="true" keyProperty="uid">
+        insert into sys_user(uname,upwd,state,lastLoginTime) values (#{sysUser.uname},#{sysUser.upwd},#{sysUser.state},#{sysUser.lastLoginTime})
+    </insert>
+
+    <select id="findByUName" parameterType="String" resultType="com.example.welcome1.entity.SysUser">
+        select uid,uname,upwd,state,lastLoginTime
+        from sys_user where uname=#{sysUser.uname}
+    </select>
+</mapper>
