@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.welcome1.dao.NoticeDao">
+
+    <insert id="addNotice" parameterType="com.example.welcome1.entity.Notice" >
+        insert into notice(title, ntype, person, ntime, ncollege, ncontent)
+        values (#{notice.title},#{notice.ntype},#{notice.person},
+                #{notice.ntime},#{notice.ncollege},#{notice.ncontent})
+    </insert>
+    <delete id="deleteNotice" parameterType="java.lang.String">
+        delete from notice
+        where title=#{title}
+    </delete>
+    <update id="updateNotice" parameterType="com.example.welcome1.entity.Notice" >
+        update notice
+        <set >
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="ntype != null">
+                ntype = #{ntype},
+            </if>
+            <if test="person != null">
+                person = #{person},
+            </if>
+            <if test="ntime != null">
+                ntime = #{ntime},
+            </if>
+            <if test="ncollege != null">
+                ncollege = #{ncollege},
+            </if>
+            <if test="ncontent != null">
+                ncontent = #{ncontent},
+            </if>
+        </set>
+        where title = #{title}
+    </update>
+    <select id="findByTitle" parameterType="java.lang.String" resultType="com.example.welcome1.entity.Notice">
+        select title, ntype, person, ntime, ncollege, ncontent
+        from notice
+        where title=#{title}
+    </select>
+    <select id="findAllNotice" resultType="com.example.welcome1.entity.Notice">
+        select title, ntype, person, ntime, ncollege, ncontent
+            from notice
+    </select>
+    <select id="findAllByntime" parameterType="java.util.Date" resultType="com.example.welcome1.entity.Notice">
+        select title, ntype, person, ntime, ncollege, ncontent
+        from notice
+        order by #{ntime}
+    </select>
+    <select id="findAllByntype" parameterType="String" resultType="com.example.welcome1.entity.Notice">
+        select title, ntype, person, ntime, ncollege, ncontent
+        from notice
+        order by convert (${value} using gbk)
+    </select>
+</mapper>

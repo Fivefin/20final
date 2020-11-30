@@ -10,6 +10,7 @@ import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * (SysUser)表服务实现类
@@ -34,8 +35,8 @@ public class SysUserServiceImpl implements SysUserService {
             throw new RuntimeException("用户名已存在!");
         }
 
-
     }
+
 
     @Override
     public SysUser login(SysUser sysUser) {
@@ -50,6 +51,11 @@ public class SysUserServiceImpl implements SysUserService {
             throw new RuntimeException("用户名输入错误！");
         }
     }
+    @Override
+    public int closeByUid(String uid) {
+        int updateDB = sysUserDao.closeByUid(uid);
+        return updateDB;
+    }
 
     @Override
     public SysUser getInfo(SysUser sysUser) {
@@ -58,7 +64,7 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Integer updateInfo(SysUser sysUser) {
+    public int updateInfo(SysUser sysUser) {
         SysUser sysUserByUname = sysUserDao.findByUName(sysUser.getUname());
         Integer updateDB = sysUserDao.updateSysUser(sysUserByUname);
         return updateDB;
@@ -66,9 +72,16 @@ public class SysUserServiceImpl implements SysUserService {
     }
 
     @Override
-    public Integer updatePwd(String uname) {
+    public int updatePwd(String uname) {
         SysUser sysUserByUname = sysUserDao.findByUName(uname);
         return sysUserDao.updatePwd(sysUserByUname);
+    }
+
+
+
+    @Override
+    public List<SysUser> listByRole(String role) {
+        return sysUserDao.listByRole(role);
     }
 
 }

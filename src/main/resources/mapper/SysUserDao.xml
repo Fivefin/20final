@@ -5,14 +5,29 @@
     <insert id="save" parameterType="com.example.welcome1.entity.SysUser" useGeneratedKeys="true" keyProperty="uid">
         insert into sys_user(uname,upwd,state,lastLoginTime) values (#{sysUser.uname},#{sysUser.upwd},#{sysUser.state},#{sysUser.lastLoginTime})
     </insert>
-
-    <select id="findByUName" parameterType="String" resultType="com.example.welcome1.entity.SysUser">
+    <update id="closeByUid" parameterType="com.example.welcome1.entity.SysUser" >
+        update sys_user
+        <set >
+            <if test="state != null">
+                state = '0',
+            </if>
+        </set>
+        where uid = #{uid}
+    </update>
+    <select id="findByUName" parameterType="java.lang.String" resultType="com.example.welcome1.entity.SysUser">
         select uid,uname,upwd,state,lastLoginTime
-        from sys_user where uname=#{sysUser.uname}
+        from sys_user where uname=#{uname}
     </select>
     <select id="findByUid" parameterType="String" resultType="com.example.welcome1.entity.SysUser">
         select uid,uname,upwd,state,lastLoginTime
-        from sys_user where uid=#{sysUser.uid}
+        from sys_user where uid=#{uid}
+    </select>
+    <select id="listByRole" parameterType="java.lang.String" resultType="com.example.welcome1.entity.SysUser">
+        SELECT
+          uid,uname,upwd,state,lastLoginTime
+        FROM
+          sys_user
+        where role=#{role}
     </select>
     
     <update id="updateSysUser" parameterType="com.example.welcome1.entity.SysUser" >

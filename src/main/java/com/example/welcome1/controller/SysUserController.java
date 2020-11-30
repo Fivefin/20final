@@ -2,10 +2,10 @@ package com.example.welcome1.controller;
 
 
 import com.example.welcome1.entity.SysUser;
+import com.example.welcome1.response.ResponseResult;
 import com.example.welcome1.service.SysUserService;
 import com.example.welcome1.utils.VerifyCodeUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -24,11 +25,10 @@ public class SysUserController {
     @Resource
     private SysUserService sysUserService;
 
-
     /**
      *用来处理用户登录
      */
-    @PostMapping("login")
+    @RequestMapping("login")
     public Map<String,Object> login(@RequestBody SysUser sysUser){
         //log.info("当前登录的信息:[{}]",sysUser.toString());
         Map<String,Object> map = new HashMap<>();
@@ -48,7 +48,7 @@ public class SysUserController {
      *用来处理用户注册
      */
 //,String code,HttpServletRequest request
-    @PostMapping("register")
+    @RequestMapping("register")
     public Map<String,Object> register(@RequestBody SysUser sysUser){
 //        log.info("用户信息:[{}]",sysUser.toString());
 //        log.info("用户输入的验证码信息:[{}]",code);
@@ -76,7 +76,7 @@ public class SysUserController {
     /**
      * 生成验证码图片
      */
-    @GetMapping("getImage")
+    @RequestMapping("getImage")
     public String getImageCode(HttpServletRequest request) throws IOException {
         //1.使用工具类生成验证码
         String code= VerifyCodeUtils.generateVerifyCode(4);
@@ -89,67 +89,91 @@ public class SysUserController {
     }
 
     /**
-     * 个人资料
+     * 获取个人资料
      */
-    @GetMapping("/getInfo")
-    public Map<String,Object> getInfo(@RequestBody SysUser sysUser){
-        Map<String,Object> map = new HashMap<>();
+    @RequestMapping("/getInfo")
+    public ResponseResult getInfo(@RequestBody SysUser sysUser){
+        ResponseResult responseResult = new ResponseResult();
         try {
             SysUser sysUserDB = sysUserService.getInfo(sysUser);
-            map.put("uid",sysUserDB.getUid());
-            map.put("uname",sysUserDB.getUname());
-            map.put("birthday",sysUserDB.getBirthday());
-            map.put("email",sysUserDB.getEmail());
-            map.put("phone",sysUserDB.getPhone());
-            map.put("role",sysUserDB.getRole());
-            map.put("state",sysUserDB.getState());
-            map.put("LLT",sysUserDB.getLastLoginTime());
-            map.put("upwd",sysUserDB.getUpwd());
+            return ResponseResult.SUCCESS().setData(sysUserDB);
         }catch (Exception e){
             e.printStackTrace();
-            map.put("state",false);
-            map.put("msg",e.getMessage());
         }
-        return map;
-    }
-
-
-    @PostMapping("/updateInfo")
-    public Map<String,Object> updateInfo(@RequestBody SysUser sysUser){
-        Map<String,Object>map = new HashMap<>();
-        try {
-            Integer updateDB = sysUserService.updateInfo(sysUser);
-            if(updateDB != 0){
-                map.put("state",true);
-                map.put("msg","提示：修改信息成功");
-            }else{
-                map.put("state",false);
-                map.put("msg","提示：修改信息失败");
-            }
-
-        }catch (Exception e){
-            e.printStackTrace();
-            map.put("state",false);
-            map.put("msg","提示:"+e.getMessage());
-        }
-        return map;
+        return ResponseResult.FAILED();
     }
 
 
     /**
-     * Put请求可以直接与对象类绑定，但需要参数名一致
-     * @param uname
+     * 修改用户个人信息
+     * @param sysUser
      * @return
      */
-    @GetMapping("/update/{uname}")
-    public String updatePwd(@PathVariable(value = "uname")String uname){
-        Integer update = sysUserService.updatePwd(uname);
-        if(update != 0){
-            return "提示：修改密码成功";
-        }else{
-            return "提示：修改密码失败";
+    @RequestMapping("/updateInfo")
+    public ResponseResult updateInfo(@RequestBody SysUser sysUser){
+        try {
+            int updateDB = sysUserService.updateInfo(sysUser);
+            if(updateDB != 0){
+                return ResponseResult.SUCCESS("修改信息成功").setData(updateDB);
+            }else{
+                return ResponseResult.FAILED("修改失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();;
         }
+        return ResponseResult.FAILED("修改失败");
     }
 
 
+    /**
+     * 根据uname修改密码
+     * @param uname
+     * @return
+     */
+    @RequestMapping("/updatePwd/{uname}")
+    public ResponseResult updatePwd(@PathVariable(value = "uname")String uname){
+
+        try {
+            int updateDB = sysUserService.updatePwd(uname);
+            if(updateDB != 0){
+                return ResponseResult.SUCCESS("修改信息成功").setData(updateDB);
+            }else{
+                return ResponseResult.FAILED("修改失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();;
+        }
+        return ResponseResult.FAILED("修改失败");
+    }
+
+    /**
+     * 根据uid冻结用户
+     * @param uid
+     * @return
+     */
+    @RequestMapping("/closeByUid/{uid}")
+    public ResponseResult closeByUid(@PathVariable(value = "uid")String uid){
+
+        try {
+            int updateDB = sysUserService.closeByUid(uid);
+            if(updateDB != 0){
+                return ResponseResult.SUCCESS("修改成功").setData(updateDB);
+            }else{
+                return ResponseResult.FAILED("修改失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();;
+        }
+        return ResponseResult.FAILED("修改失败");
+    }
+
+    /**
+     * 根据role查询用户
+     * @param role
+     * @return
+     */
+    @RequestMapping("/listByRole")
+    public List<SysUser> listByRole(@PathVariable(value = "role")String role){
+        return sysUserService.listByRole(role);
+    }
 }
