@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.welcome1.dao.DromDao">
+
+    <select id="findByDid" parameterType="java.lang.String" resultType="com.example.welcome1.entity.Drom">
+        select did, dblock, dflor, dunit, dbed, dstate
+        from drom
+        where did=#{did}
+    </select>
+
+</mapper>

@@ -14,6 +14,3 @@ CREATE TABLE `notice`
    PRIMARY KEY (`title`) USING BTREE
 )ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
-
-INSERT INTO notice VALUES ('2020年四川师范大学四、六级报考通知','教务处',
-'王五','2020.10.11','计算机科学学院','关于2020年四川师范大学四、六级报考通知如下：');
