@@ -2,10 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.welcome1.dao.DromDao">
 
+    <insert id="addDrom" parameterType="com.example.welcome1.entity.Drom" >
+        insert into drom(did, dcollege, darea, dblock, dflor, dunit, dbed, dstate)
+        values (#{did},#{dcollege},#{darea},#{dblock},
+                #{dflor},#{dunit},#{dbed},#{dstate})
+    </insert>
     <select id="findByDid" parameterType="java.lang.String" resultType="com.example.welcome1.entity.Drom">
-        select did, dblock, dflor, dunit, dbed, dstate
+        select did, dcollege, darea, dblock, dflor, dunit, dbed, dstate
         from drom
         where did=#{did}
     </select>
+    <select id="findDromsByCollege" parameterType="java.lang.String" resultType="com.example.welcome1.entity.Drom">
+        select did, dcollege, darea, dblock, dflor, dunit, dbed, dstate
+        from drom
+        where dcollege=#{dcollege}
+    </select>
+    <select id="findDromsByDarea" parameterType="java.lang.String" resultType="com.example.welcome1.entity.Drom">
+        select did, dcollege, darea, dblock, dflor, dunit, dbed, dstate
+        from drom
+        where darea=#{darea}
+    </select>
+    <update id="updateDrom" parameterType="com.example.welcome1.entity.Drom" >
+        update drom
+        <set >
+            <if test="did != null">
+                did = #{did},
+            </if>
+            <if test="dcollege != null">
+                dcollege = #{dcollege},
+            </if>
+            <if test="darea != null">
+                darea = #{darea},
+            </if>
+            <if test="dblock != null">
+                dblock = #{dblock},
+            </if>
+            <if test="dflor != null">
+                dflor = #{dflor},
+            </if>
+            <if test="dunit != null">
+                dunit = #{dunit},
+            </if>
+            <if test="dbed != null">
+                dbed = #{dbed},
+            </if>
+            <if test="dstate != null">
+                dstate = #{dstate},
+            </if>
+        </set>
+        where did = #{did}
+    </update>
 
 </mapper>

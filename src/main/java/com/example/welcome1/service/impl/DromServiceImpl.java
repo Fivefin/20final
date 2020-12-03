@@ -19,4 +19,14 @@ public class DromServiceImpl implements DromService {
     public Drom findByDid(String did) {
         return dromDao.findByDid(did);
     }
+
+    @Override
+    public int updateDrom(Drom drom) {
+        return dromDao.updateDrom(drom);
+    }
+
+    @Override
+    public int addDrom(Drom drom) {
+        return dromDao.addDrom(drom);
+    }
 }

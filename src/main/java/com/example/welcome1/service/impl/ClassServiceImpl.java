@@ -20,4 +20,15 @@ public class ClassServiceImpl implements ClassService {
     public Class findByCid(String cid) {
         return classDao.findByCid(cid);
     }
+
+    @Override
+    public int addClass(Class _class) {
+        return classDao.addClass(_class);
+    }
+
+    @Override
+    public int deleteClass(String cid) {
+        return classDao.deleteClass(cid);
+    }
+
 }

@@ -47,7 +47,7 @@
     <select id="findAllByntime" parameterType="java.util.Date" resultType="com.example.welcome1.entity.Notice">
         select title, ntype, person, ntime, ncollege, ncontent
         from notice
-        order by #{ntime}
+        order by #{ntime} desc
     </select>
     <select id="findAllByntype" parameterType="String" resultType="com.example.welcome1.entity.Notice">
         select title, ntype, person, ntime, ncollege, ncontent
