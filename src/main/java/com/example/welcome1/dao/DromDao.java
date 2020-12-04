@@ -15,5 +15,6 @@ public interface DromDao {
     List<Drom> findDromsByCollege(String dcollege);
     //按宿舍区查找
     List<Drom> findDromsByDarea(String darea);
-    //
+    //获取所有宿舍
+    List<Drom> findAll();
 }

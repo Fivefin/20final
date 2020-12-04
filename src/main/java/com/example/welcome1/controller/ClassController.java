@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -50,4 +51,26 @@ public class ClassController {
 
         }
     }
+
+    @RequestMapping("/update")
+    public ResponseResult classUpdate(Class _class){
+        int classDB = classService.updateClass(_class);
+        if(classDB==0){
+            return ResponseResult.FAILED("修改班级失败");
+        }else{
+            return ResponseResult.SUCCESS("修改班级成功").setData(_class);
+        }
+    }
+
+    @RequestMapping("/getclasses")
+    public ResponseResult getCls(String ccollege){
+        List<Class> classes= classService.findByCcollege(ccollege);
+        if(null==classes){
+            return ResponseResult.FAILED("获取班级失败");
+        }else{
+            return ResponseResult.SUCCESS("获取班级成功").setData(classes);
+        }
+    }
+
+
 }

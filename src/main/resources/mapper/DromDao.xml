@@ -22,6 +22,10 @@
         from drom
         where darea=#{darea}
     </select>
+    <select id="findAll"  resultType="com.example.welcome1.entity.Drom">
+        select did, dcollege, darea, dblock, dflor, dunit, dbed, dstate
+        from drom
+    </select>
     <update id="updateDrom" parameterType="com.example.welcome1.entity.Drom" >
         update drom
         <set >

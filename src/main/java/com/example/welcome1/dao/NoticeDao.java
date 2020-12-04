@@ -17,8 +17,8 @@ public interface NoticeDao {
     int updateNotice(Notice notice);
     //获取所有公告
     List<Notice> findAllNotice();
-    //按时间查找公告
+    //按时间排序公告
     List<Notice> findAllByntime(Date ntime);
-    //按类型查找公告
+    //按类型排序公告
     List<Notice> findAllByntype(String ntype);
 }

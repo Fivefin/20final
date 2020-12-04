@@ -5,5 +5,7 @@ import com.example.welcome1.entity.Student;
 public interface StudentService {
     Student findBySid(String sid);
 
-    int setStudent(Student student);
+    int updateStu(Student student);
+
+    int deleteStu(String sid);
 }

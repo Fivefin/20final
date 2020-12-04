@@ -8,7 +8,7 @@
         from student
         where sid=#{sid}
     </select>
-    <update id="setStudent" parameterType="com.example.welcome1.entity.Student" >
+    <update id="updateStu" parameterType="com.example.welcome1.entity.Student" >
         update student
         <set >
             <if test="sid != null">
@@ -62,5 +62,9 @@
         </set>
         where sid = #{sid}
     </update>
+    <delete id="deleteStu" parameterType="java.lang.String">
+        delete from student
+        where sid=#{sid}
+    </delete>
 
 </mapper>
