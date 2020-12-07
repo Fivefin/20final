@@ -4,9 +4,7 @@ import com.example.welcome1.entity.Class;
 import com.example.welcome1.response.ResponseResult;
 import com.example.welcome1.service.ClassService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,7 +18,7 @@ public class ClassController {
     @Resource
     private ClassService classService;
 
-    @RequestMapping("/Info")
+    @GetMapping("/info")
     public ResponseResult classInfo(String cid){
         Class getcls = classService.findByCid(cid);
         if(null==getcls){
@@ -30,7 +28,7 @@ public class ClassController {
 
         }
     }
-    @RequestMapping("/add")
+    @PostMapping("/add")
     public ResponseResult classAdd(Class _class){
         int classDB = classService.addClass(_class);
         if(classDB==0){
@@ -41,7 +39,7 @@ public class ClassController {
         }
     }
 
-    @RequestMapping("/delete")
+    @PostMapping("/delete")
     public ResponseResult classDelete(String cid){
         int classDB = classService.deleteClass(cid);
         if(classDB==0){
@@ -52,7 +50,7 @@ public class ClassController {
         }
     }
 
-    @RequestMapping("/update")
+    @PostMapping("/update")
     public ResponseResult classUpdate(Class _class){
         int classDB = classService.updateClass(_class);
         if(classDB==0){
@@ -62,7 +60,7 @@ public class ClassController {
         }
     }
 
-    @RequestMapping("/getclasses")
+    @GetMapping("/getclasses")
     public ResponseResult getCls(String ccollege){
         List<Class> classes= classService.findByCcollege(ccollege);
         if(null==classes){

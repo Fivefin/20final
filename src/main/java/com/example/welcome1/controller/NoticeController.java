@@ -52,7 +52,7 @@ public class NoticeController {
         }
     }
 
-    @RequestMapping("/findAll")
+    @RequestMapping("/findall")
     public ResponseResult findAllNotice(){
         List<Notice> allNotice = noticeService.findAllNotice();
         if(null==allNotice){
@@ -62,7 +62,7 @@ public class NoticeController {
         }
     }
 
-    @RequestMapping("/findAllByntype")
+    @RequestMapping("/findallbyntype")
     public ResponseResult findAllByntype(String ntype){
         List<Notice> allNotice = noticeService.findAllByntype(ntype);
         if(null==allNotice){
@@ -72,7 +72,7 @@ public class NoticeController {
         }
     }
 
-    @RequestMapping("/findAllByntime")
+    @RequestMapping("/findallbyntime")
     public ResponseResult findAllByntime(Date ntime){
         List<Notice> allNotice = noticeService.findAllByntime(ntime);
         if(null==allNotice){

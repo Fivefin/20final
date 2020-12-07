@@ -28,19 +28,21 @@ public class SysUserController {
     /**
      *用来处理用户登录
      */
-    @RequestMapping("login")
+    @PostMapping("login")
     public Map<String,Object> login(@RequestBody SysUser sysUser){
         //log.info("当前登录的信息:[{}]",sysUser.toString());
         Map<String,Object> map = new HashMap<>();
         try {
             SysUser sysUserDB = sysUserService.login(sysUser);
-            map.put("state",true);
+            map.put("state",200);
             map.put("msg","登录成功");
             map.put("sysUser",sysUserDB);
+            map.put("path","/main");
         }catch (Exception e){
             e.printStackTrace();
-            map.put("state",false);
+            map.put("state",500);
             map.put("msg",e.getMessage());
+            map.put("path","/404  ");
         }
         return map;
     }
@@ -76,7 +78,7 @@ public class SysUserController {
     /**
      * 生成验证码图片
      */
-    @RequestMapping("getImage")
+    @GetMapping("getImage")
     public String getImageCode(HttpServletRequest request) throws IOException {
         //1.使用工具类生成验证码
         String code= VerifyCodeUtils.generateVerifyCode(4);
@@ -91,7 +93,7 @@ public class SysUserController {
     /**
      * 获取个人资料
      */
-    @RequestMapping("/getInfo")
+    @RequestMapping("/get")
     public ResponseResult getInfo(@RequestBody SysUser sysUser){
         ResponseResult responseResult = new ResponseResult();
         try {
@@ -109,7 +111,7 @@ public class SysUserController {
      * @param sysUser
      * @return
      */
-    @RequestMapping("/updateInfo")
+    @RequestMapping("/update")
     public ResponseResult updateInfo(@RequestBody SysUser sysUser){
         try {
             int updateDB = sysUserService.updateInfo(sysUser);
@@ -151,9 +153,8 @@ public class SysUserController {
      * @param uid
      * @return
      */
-    @RequestMapping("/closeByUid/{uid}")
+    @RequestMapping("/closeByuid/{uid}")
     public ResponseResult closeByUid(@PathVariable(value = "uid")String uid){
-
         try {
             int updateDB = sysUserService.closeByUid(uid);
             if(updateDB != 0){
@@ -162,18 +163,23 @@ public class SysUserController {
                 return ResponseResult.FAILED("修改失败");
             }
         }catch (Exception e){
-            e.printStackTrace();;
+            e.printStackTrace();
         }
         return ResponseResult.FAILED("修改失败");
     }
-b
     /**
      * 根据role查询用户
      * @param role
      * @return
      */
-    @RequestMapping("/listByRole")
-    public List<SysUser> listByRole(@PathVariable(value = "role")String role){
-        return sysUserService.listByRole(role);
+    @RequestMapping("/findByRole")
+    public ResponseResult findByRole(@PathVariable(value = "role")String role){
+        List<SysUser> users = sysUserService.listByRole(role);
+        if(null==users){
+            return ResponseResult.FAILED("查询用户成功");
+        }else{
+            return ResponseResult.SUCCESS("查询用户失败").setData(users);
+        }
+
     }
 }

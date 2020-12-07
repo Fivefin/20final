@@ -20,7 +20,7 @@ public class DromController {
     @Resource
     private DromService dromService;
 
-    @RequestMapping("/Info")
+    @RequestMapping("/info")
     public ResponseResult dromInfo(String did){
         Drom getdro = dromService.findByDid(did);
         if(null==getdro){
